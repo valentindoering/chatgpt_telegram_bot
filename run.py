@@ -29,9 +29,10 @@ def ask_chat_gpt(question):
             f.write(f'{time.strftime("%Y-%m-%d %H:%M:%S")},{question},{log_text}')
         return text
     except:
+        log_text = 'ChatGPT failed'
         with open('chat_gpt_log.csv', 'a') as f:
-            f.write(f'{time.strftime("%Y-%m-%d %H:%M:%S")},{question},{text}')
-        return "Chat GPT failed"
+            f.write(f'{time.strftime("%Y-%m-%d %H:%M:%S")},{question},{log_text}')
+        return log_text
 
 def telegram_fetch(message: str) -> bool:
     message = str(message)
