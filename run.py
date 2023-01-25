@@ -14,14 +14,24 @@ openai.api_key = config['chat_gpt']['api_key']
 # print(openai.Model.list())
 
 def ask_chat_gpt(question):
-    answer = openai.Completion.create(
-        model=config['chat_gpt']['model'],
-        prompt=question,
-        max_tokens=int(config['chat_gpt']['max_tokens_per_request']),
-        temperature=0
-    )
-    text = answer['choices'][0]['text']
-    return text
+    try:
+        answer = openai.Completion.create(
+            model=config['chat_gpt']['model'],
+            prompt=question,
+            max_tokens=int(config['chat_gpt']['max_tokens_per_request']),
+            temperature=0
+        )
+        text = answer['choices'][0]['text']
+        # new line in csv file with date, time, question, answer
+        with open('chat_gpt_log.csv', 'a') as f:
+            # remove new line characters
+            log_text = text.replace('\n', ' ')
+            f.write(f'{time.strftime("%Y-%m-%d %H:%M:%S")},{question},{log_text}')
+        return text
+    except:
+        with open('chat_gpt_log.csv', 'a') as f:
+            f.write(f'{time.strftime("%Y-%m-%d %H:%M:%S")},{question},{text}')
+        return "Chat GPT failed"
 
 def telegram_fetch(message: str) -> bool:
     message = str(message)
