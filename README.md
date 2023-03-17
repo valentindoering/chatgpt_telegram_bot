@@ -8,7 +8,7 @@
 7. Go to `https://beta.openai.com/account/api-keys`, login, create and remember your api key, remember you organization identifier
 6. create a config.yml that looks like that, enter your data
 ```
-    chat_gpt:
+    open_ai:
         api_key: <your api key>
         organization: <your organziation identifier> # feel free to choose another model, if you want
         model: "text-davinci-003" # determines the maximimum answer length, the bigger this number is the faster your free apikey trial is over
