@@ -122,6 +122,25 @@ while True:
         continue
     latest_message_id = messages[0][1]
     text = messages[0][2]
+
+    if config['bot']['python_exec_functionality']:
+        if text.startswith("exec"):
+            text = text[5:]
+            text = text.replace('”', '"').replace('‘', "'").replace('’', "'").replace('“', '"').replace('…', '...')
+            
+            try:
+                exec(text)
+            except Exception as err:
+                send_telegram("Error: " + str(err))
+                continue
+
+            if output is None:
+                send_telegram("Assign the output variable")
+                continue
+            
+            send_telegram(output)
+            continue
+
     send_telegram(ask_chat_gpt(text))
 
 
